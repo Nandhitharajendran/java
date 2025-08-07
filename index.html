@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Number of Islands</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        textarea { width: 300px; height: 150px; }
+        button { padding: 10px 20px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<h2>Number of Islands Finder</h2>
+
+<p>Enter a grid like this:</p>
+<pre>
+11000
+11000
+00100
+00011
+</pre>
+
+<textarea id="gridInput" placeholder="Enter grid rows..."></textarea><br>
+<button onclick="findIslands()">Find Number of Islands</button>
+
+<h3 id="result"></h3>
+
+<script>
+function findIslands() {
+    const input = document.getElementById("gridInput").value.trim().split("\n");
+    const grid = input.map(row => row.trim().split(""));
+
+    const rows = grid.length;
+    const cols = grid[0].length;
+    let count = 0;
+
+    function dfs(i, j) {
+        if (i < 0 || j < 0 || i >= rows || j >= cols || grid[i][j] === '0') {
+            return;
+        }
+        grid[i][j] = '0';
+        dfs(i - 1, j);
+        dfs(i + 1, j);
+        dfs(i, j - 1);
+        dfs(i, j + 1);
+    }
+
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            if (grid[i][j] === '1') {
+                count++;
+                dfs(i, j);
+            }
+        }
+    }
+
+    document.getElementById("result").innerText = "Number of Islands: " + count;
+}
+</script>
+
+</body>
+</html>
